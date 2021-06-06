@@ -1,5 +1,4 @@
 .chart-placeholder {
-  margin-top: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,4 +10,10 @@
 .test {
   width: 20px;
   height: 20px;
+}
+:host ::ng-deep {
+  .mat-grid-tile-content {
+    align-items: flex-start;
+    justify-content: baseline;
+  }
 }

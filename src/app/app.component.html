@@ -1,4 +1,4 @@
-<mat-grid-list cols="4" rowHeight="1:1">
+<mat-grid-list cols="4" rowHeight="200px">
   <mat-grid-tile [colspan]="1" [rowspan]="1">
     <app-gauge [data]="(xvwap_volume$ | async)!"></app-gauge>
   </mat-grid-tile>
@@ -8,10 +8,10 @@
   <mat-grid-tile [colspan]="1" [rowspan]="1">
     <app-gauge [data]="(xvwap_inverse$ | async)!"></app-gauge>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="1" [rowspan]="2">
+  <mat-grid-tile [colspan]="1" [rowspan]="3">
     <app-symbol-list [data]="(listItems$ | async)!"></app-symbol-list>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="3" [rowspan]="1">
+  <mat-grid-tile [colspan]="3" [rowspan]="2">
     <mat-card class="chart-placeholder">
       <div>chart goes here!</div>
     </mat-card>
