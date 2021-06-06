@@ -3,13 +3,11 @@ import { NgxGaugeType } from 'ngx-gauge/gauge/gauge';
 import { Observable } from 'rxjs';
 import { filter, map, scan, share, tap } from 'rxjs/operators';
 import { webSocket } from 'rxjs/webSocket';
-import { listAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [listAnimation],
 })
 export class AppComponent {
   private source$: Observable<{ [symbol: string]: Ticker }>;
@@ -93,7 +91,6 @@ export class AppComponent {
     const r = Math.max(base, 100);
     const g = Math.max(256 - base, 100);
     const b = 0;
-    console.log(p, `rgb(${r}, ${g}, ${b})`);
     return `rgb(${r}, ${g}, ${b})`;
   }
 }

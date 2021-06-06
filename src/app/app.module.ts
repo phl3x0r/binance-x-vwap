@@ -8,17 +8,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {
-  TransitionGroupComponent,
-  TransitionGroupItemDirective,
-} from './transition-group';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TransitionGroupComponent,
-    TransitionGroupItemDirective,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     NgxGaugeModule,
