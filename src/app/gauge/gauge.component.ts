@@ -10,6 +10,9 @@ export class GaugeComponent {
   @Input()
   data: GaugeData = { value: 0, color: '' };
 
+  @Input()
+  label: string = '';
+
   constructor() {}
 }
 
