@@ -86,12 +86,17 @@ export class AppComponent {
     );
   }
 
-  getColor(p: number): string {
-    const base = 256 / Math.min(0.1 / Math.abs(p), 256);
-    const r = p < 0 ? 210 : 210 - base;
-    const g = p > 0 ? 210 : 210 - base;
-    const b = 0;
-    return `rgb(${r}, ${g}, ${b})`;
+  getColor(p: number, r = 0.1): string {
+    // const base = 256 / Math.min(0.1 / Math.abs(p), 256);
+    // const h = p < 0 ? 210 : 210 - base;
+    // const s = p > 0 ? 210 : 210 - base;
+    // const l = 0;
+    const base = 60;
+    const effect = Math.min(Math.round((60 * Math.abs(p)) / r), 60);
+    const h = p < 0 ? base - effect : base + effect;
+    const s = '90%';
+    const l = '40%';
+    return `hsl(${h}, ${s}, ${l})`;
   }
 }
 
