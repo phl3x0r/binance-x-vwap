@@ -1,0 +1,15 @@
+.list-card {
+  width: 100%;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.symbols-list {
+  height: 100vh;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

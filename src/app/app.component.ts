@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgxGaugeType } from 'ngx-gauge/gauge/gauge';
 import { Observable } from 'rxjs';
 import { filter, map, scan, share, tap } from 'rxjs/operators';
 import { webSocket } from 'rxjs/webSocket';
+import { GaugeData } from './gauge/gauge.component';
+import { ListItemData } from './symbol-list/symbol-list.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   private source$: Observable<{ [symbol: string]: Ticker }>;
-  gaugeType: NgxGaugeType = 'semi';
 
-  xvwap_volume$: Observable<number>;
-  xvwap_equal$: Observable<number>;
-  xvwap_inverse$: Observable<number>;
+  xvwap_volume$: Observable<GaugeData>;
+  xvwap_equal$: Observable<GaugeData>;
+  xvwap_inverse$: Observable<GaugeData>;
 
   private getDistance = (price: number, origin: number): number =>
     1 - price / origin;
-  listItems$: Observable<{ symbol: string; distance: number; color: string }[]>;
+  listItems$: Observable<ListItemData[]>;
 
   constructor() {
     this.source$ = webSocket<Tickers>(
@@ -57,7 +59,7 @@ export class AppComponent {
       )
     );
   }
-  getXvwap(w: Weighting): Observable<number> {
+  getXvwap(w: Weighting): Observable<GaugeData> {
     return this.source$.pipe(
       map((tickers) => {
         const reduced = Object.keys(tickers).reduce(
@@ -82,15 +84,12 @@ export class AppComponent {
         );
         return reduced.distance / reduced.volume;
       }),
-      filter((x) => !!x)
+      filter((x) => !!x),
+      map((value) => ({ value, color: this.getColor(value) }))
     );
   }
 
   getColor(p: number, r = 0.1): string {
-    // const base = 256 / Math.min(0.1 / Math.abs(p), 256);
-    // const h = p < 0 ? 210 : 210 - base;
-    // const s = p > 0 ? 210 : 210 - base;
-    // const l = 0;
     const base = 60;
     const effect = Math.min(Math.round((60 * Math.abs(p)) / r), 60);
     const h = p < 0 ? base - effect : base + effect;

@@ -8,9 +8,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { GaugeComponent } from './gauge/gauge.component';
+import { SymbolListComponent } from './symbol-list/symbol-list.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, GaugeComponent, SymbolListComponent],
   imports: [
     BrowserModule,
     NgxGaugeModule,

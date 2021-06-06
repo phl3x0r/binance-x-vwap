@@ -1,0 +1,19 @@
+<mat-card>
+  <ngx-gauge
+    *ngIf="data"
+    type="semi"
+    [min]="-20"
+    [max]="20"
+    [thick]="20"
+    [foregroundColor]="data.color"
+  >
+    <ngx-gauge-label>
+      <span class="gauge-value-label"> XVWAP (volume) </span>
+    </ngx-gauge-label>
+    <ngx-gauge-value>
+      <span class="gauge-value">
+        {{ data.value || 0 | percent: "1.2-2" }}
+      </span>
+    </ngx-gauge-value>
+  </ngx-gauge>
+</mat-card>

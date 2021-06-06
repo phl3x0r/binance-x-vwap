@@ -1,89 +1,15 @@
 <mat-grid-list cols="4" rowHeight="1:1">
   <mat-grid-tile [colspan]="1" [rowspan]="1">
-    <mat-card>
-      <ng-container *ngIf="xvwap_volume$ | async as xvwap">
-        <ngx-gauge
-          [type]="gaugeType"
-          [min]="-20"
-          [max]="20"
-          [thick]="20"
-          [foregroundColor]="getColor(xvwap)"
-        >
-          <ngx-gauge-label>
-            <span class="gauge-value-label"> XVWAP (volume) </span>
-          </ngx-gauge-label>
-          <ngx-gauge-value>
-            <span class="gauge-value">
-              {{ xvwap || 0 | percent: "1.2-2" }}
-            </span>
-          </ngx-gauge-value>
-        </ngx-gauge>
-      </ng-container>
-    </mat-card>
+    <app-gauge [data]="(xvwap_volume$ | async)!"></app-gauge>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="1" [rowspan]="1">
-    <mat-card>
-      <ng-container *ngIf="xvwap_equal$ | async as xvwap">
-        <ngx-gauge
-          [type]="gaugeType"
-          [min]="-20"
-          [max]="20"
-          [thick]="20"
-          [foregroundColor]="getColor(xvwap)"
-        >
-          <ngx-gauge-label>
-            <span class="gauge-value-label"> XVWAP (equal weight) </span>
-          </ngx-gauge-label>
-          <ngx-gauge-value>
-            <span class="gauge-value">
-              {{ xvwap || 0 | percent: "1.2-2" }}
-            </span>
-          </ngx-gauge-value>
-        </ngx-gauge>
-      </ng-container>
-    </mat-card>
+    <app-gauge [data]="(xvwap_equal$ | async)!"></app-gauge>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="1" [rowspan]="1">
-    <mat-card>
-      <ng-container *ngIf="xvwap_inverse$ | async as xvwap">
-        <ngx-gauge
-          [type]="gaugeType"
-          [min]="-20"
-          [max]="20"
-          [thick]="20"
-          [foregroundColor]="getColor(xvwap)"
-        >
-          <ngx-gauge-label>
-            <span class="gauge-value-label"> XVWAP (inverse volume) </span>
-          </ngx-gauge-label>
-          <ngx-gauge-value>
-            <span class="gauge-value">
-              {{ xvwap || 0 | percent: "1.2-2" }}
-            </span>
-          </ngx-gauge-value>
-        </ngx-gauge>
-      </ng-container>
-    </mat-card>
+    <app-gauge [data]="(xvwap_inverse$ | async)!"></app-gauge>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="1" [rowspan]="2">
-    <mat-card class="list-card">
-      <mat-list role="list" class="symbols-list">
-        <mat-list-item
-          *ngFor="let item of listItems$ | async"
-          class="list-item"
-          role="listitem"
-        >
-          <div mat-line class="list-item">
-            <span class="list-item-symbol">
-              {{ item.symbol }}
-            </span>
-            <span class="list-item-value" [ngStyle]="{ color: item.color }">{{
-              item.distance | percent: "1.2-2"
-            }}</span>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </mat-card>
+    <app-symbol-list [data]="(listItems$ | async)!"></app-symbol-list>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="3" [rowspan]="1">
     <mat-card class="chart-placeholder">

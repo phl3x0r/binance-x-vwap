@@ -1,31 +1,3 @@
-.symbols-list {
-  height: 100vh;
-  width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.gauge-value {
-  font-size: 20px;
-  font-family: "Consolas";
-}
-
-.gauge-value-label {
-  font-size: 14px;
-  font-family: "Consolas";
-}
-
-.list-card {
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-.list-item {
-  display: flex;
-  justify-content: space-between;
-}
-
 .chart-placeholder {
   margin-top: 50px;
   display: flex;
