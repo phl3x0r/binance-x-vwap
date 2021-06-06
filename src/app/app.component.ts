@@ -87,9 +87,9 @@ export class AppComponent {
   }
 
   getColor(p: number): string {
-    const base = (1 - (p * 10 + 0.5)) * 256;
-    const r = Math.max(base, 100);
-    const g = Math.max(256 - base, 100);
+    const base = 256 / Math.min(0.1 / Math.abs(p), 256);
+    const r = p < 0 ? 210 : 210 - base;
+    const g = p > 0 ? 210 : 210 - base;
     const b = 0;
     return `rgb(${r}, ${g}, ${b})`;
   }
