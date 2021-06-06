@@ -3,29 +3,25 @@ import { NgxGaugeType } from 'ngx-gauge/gauge/gauge';
 import { Observable } from 'rxjs';
 import { filter, map, scan, share, tap } from 'rxjs/operators';
 import { webSocket } from 'rxjs/webSocket';
+import { listAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  animations: [listAnimation],
 })
 export class AppComponent {
   private source$: Observable<{ [symbol: string]: Ticker }>;
   gaugeType: NgxGaugeType = 'semi';
-  gaugeValue = 28.3;
-  gaugeLabel = 'VWAP';
-  gaugeAppendText = '%';
-  thresholdConfig = {
-    '-20': { color: 'red' },
-    '-2': { color: 'orange' },
-    '2': { color: 'green' },
-  };
 
-  xvwap$: Observable<number>;
+  xvwap_volume$: Observable<number>;
+  xvwap_equal$: Observable<number>;
+  xvwap_inverse$: Observable<number>;
 
   private getDistance = (price: number, origin: number): number =>
     1 - price / origin;
-  foo$: Observable<{ symbol: string; distance: number }[]>;
+  listItems$: Observable<{ symbol: string; distance: number; color: string }[]>;
 
   constructor() {
     this.source$ = webSocket<Tickers>(
@@ -34,28 +30,36 @@ export class AppComponent {
       scan(
         (acc, cur) =>
           cur
+            .filter((ticker) => ticker.s.indexOf('_') === -1)
             .map((ticker) => ({ [ticker.s]: ticker }))
             .reduce((acc, cur) => ({ ...acc, ...cur }), acc),
         <{ [symbol: string]: Ticker }>{}
       ),
       share()
     );
-    this.xvwap$ = this.getXvwap();
-    this.foo$ = this.source$.pipe(
+    this.xvwap_volume$ = this.getXvwap(Weighting.VOLUME);
+    this.xvwap_equal$ = this.getXvwap(Weighting.EQUAL);
+    this.xvwap_inverse$ = this.getXvwap(Weighting.INVERSE);
+    this.listItems$ = this.source$.pipe(
       map((x) =>
         Object.values(x)
-          .map((v) => ({
-            symbol: v.s,
-            distance: this.getDistance(
+          .map((v) => {
+            const distance = this.getDistance(
               Number.parseFloat(v.w),
               Number.parseFloat(v.c)
-            ),
-          }))
+            );
+            const color = this.getColor(distance);
+            return {
+              symbol: v.s,
+              distance,
+              color,
+            };
+          })
           .sort((a, b) => b.distance - a.distance)
       )
     );
   }
-  getXvwap(): Observable<number> {
+  getXvwap(w: Weighting): Observable<number> {
     return this.source$.pipe(
       map((tickers) => {
         const reduced = Object.keys(tickers).reduce(
@@ -66,34 +70,32 @@ export class AppComponent {
               Number.parseFloat(ticker.w),
               Number.parseFloat(ticker.c)
             );
-            console.log(distance);
-            if (distance > 1) {
-              console.log(ticker.s, ticker.c, ticker.w);
-            }
-            acc.distance += distance * volume;
-            // console.log(acc.distance);
-            acc.volume += volume;
+            const multiplier =
+              w === Weighting.VOLUME
+                ? volume
+                : w === Weighting.INVERSE
+                ? 1 / volume
+                : 1;
+            acc.distance += distance * multiplier;
+            acc.volume += multiplier;
             return acc;
           },
           { distance: 0, volume: 0 }
         );
-        // console.log(reduced.distance);
-        return (reduced.distance / reduced.volume) * 100;
+        return reduced.distance / reduced.volume;
       }),
       filter((x) => !!x)
-      // tap(console.log)
     );
   }
-}
 
-// BTCBUSD 35485.0 2119.044
-// app.component.ts:53 BTCUSDT_210625 35467.6 2584.477
-// app.component.ts:53 YFIUSDT 42157.0 2323.534
-// app.component.ts:53 BTCBUSD 35485.0 2119.044
-// app.component.ts:53 BTCUSDT_210625 35467.6 2584.477
-// app.component.ts:53 YFIUSDT 42157.0 2323.535
-// app.component.ts:53 BTCBUSD 35485.0 2119.044
-// app.component.ts:53 BTCUSDT_210625 35467.6 2584.477
+  getColor(p: number): string {
+    const r = (1 - (p * 10 + 0.5)) * 256;
+    const g = (p * 10 + 0.5) * 256;
+    const b = 20;
+    console.log(p, `rgb(${r}, ${g}, ${b})`);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+}
 
 interface Ticker {
   e: string; // Event type
@@ -117,3 +119,15 @@ interface Ticker {
 }
 
 type Tickers = Array<Ticker>;
+
+enum Weighting {
+  VOLUME = 'volume',
+  EQUAL = 'equal',
+  INVERSE = 'inverse',
+}
+
+interface Color {
+  r: number;
+  g: number;
+  b: number;
+}
