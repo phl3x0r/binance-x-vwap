@@ -11,6 +11,6 @@
 
 <ul>
   <li *ngFor="let foo of foo$ | async">
-    {{ foo.symbol }} - {{ foo.distance }}
+    {{ foo.symbol }} :: {{ foo.distance | percent: "2.2-2" }}
   </li>
 </ul>

@@ -47,8 +47,8 @@ export class AppComponent {
           .map((v) => ({
             symbol: v.s,
             distance: this.getDistance(
-              Number.parseFloat(v.c),
-              Number.parseFloat(v.w)
+              Number.parseFloat(v.w),
+              Number.parseFloat(v.c)
             ),
           }))
           .sort((a, b) => b.distance - a.distance)
