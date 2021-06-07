@@ -16,7 +16,7 @@ export class ChartComponent implements OnInit {
         name: 'volume',
         data: data.volume,
         type: 'line',
-        color: '#4634eb',
+        color: '#2e82db',
         animation: false,
         crisp: false,
         marker: {
@@ -28,7 +28,7 @@ export class ChartComponent implements OnInit {
         name: 'equal',
         data: data.equal,
         type: 'line',
-        color: '#34c9eb',
+        color: '#adadad',
         animation: false,
         crisp: false,
         marker: {
@@ -40,7 +40,7 @@ export class ChartComponent implements OnInit {
         name: 'inverse',
         data: data.inverse,
         type: 'line',
-        color: '#e834eb',
+        color: '#75571a',
         animation: false,
         crisp: false,
         marker: {
