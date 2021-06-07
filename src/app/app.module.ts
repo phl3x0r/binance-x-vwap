@@ -8,13 +8,21 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { GaugeComponent } from './gauge/gauge.component';
 import { SymbolListComponent } from './symbol-list/symbol-list.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartComponent } from './chart/chart.component';
+import { SliderComponent } from './slider/slider.component';
 
 @NgModule({
-  declarations: [AppComponent, GaugeComponent, SymbolListComponent, ChartComponent],
+  declarations: [
+    AppComponent,
+    GaugeComponent,
+    SymbolListComponent,
+    ChartComponent,
+    SliderComponent,
+  ],
   imports: [
     BrowserModule,
     NgxGaugeModule,
@@ -24,6 +32,7 @@ import { ChartComponent } from './chart/chart.component';
     MatCardModule,
     MatGridListModule,
     HighchartsChartModule,
+    NgxSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

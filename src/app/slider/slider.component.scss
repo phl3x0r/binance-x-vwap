@@ -1,0 +1,8 @@
+:host {
+  width: 100%;
+  &::ng-deep {
+    .ngx-slider .ngx-slider-pointer {
+      background-color: red;
+    }
+  }
+}

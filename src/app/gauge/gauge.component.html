@@ -2,10 +2,11 @@
   <ngx-gauge
     *ngIf="data"
     type="semi"
-    [min]="-20"
-    [max]="20"
+    [min]="-0.2"
+    [max]="0.2"
     [thick]="20"
     [foregroundColor]="data.color"
+    [value]="data.value"
   >
     <ngx-gauge-label>
       <span class="gauge-value-label"> XVWAP ({{ label }}) </span>

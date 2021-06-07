@@ -28,6 +28,7 @@ export class AppComponent {
   private getDistance = (price: number, origin: number): number =>
     1 - price / origin;
   listItems$: Observable<ListItemData[]>;
+  slider_value: number = 0;
 
   constructor() {
     this.source$ = webSocket<Tickers>(
@@ -101,6 +102,11 @@ export class AppComponent {
           );
         }
         this.chart_data = { ...this.chart_data };
+        this.slider_value =
+          (this.chart_data.volume[this.chart_data.volume.length - 1] * -100 +
+            this.chart_data.inverse[this.chart_data.inverse.length - 1] * 100) /
+          (this.chart_data.volume[this.chart_data.volume.length - 1] +
+            this.chart_data.inverse[this.chart_data.inverse.length - 1]);
       }),
       map((value) => ({ value, color: this.getColor(value) }))
     );
