@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SeriesOptionsType } from 'highcharts';
-import { NgxGaugeType } from 'ngx-gauge/gauge/gauge';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, scan, share, tap } from 'rxjs/operators';
+import { Observable, timer } from 'rxjs';
+import { filter, map, scan, share, skipUntil, tap } from 'rxjs/operators';
 import { webSocket } from 'rxjs/webSocket';
 import { GaugeData } from './gauge/gauge.component';
 import { ListItemData } from './symbol-list/symbol-list.component';
@@ -14,7 +12,7 @@ import { ListItemData } from './symbol-list/symbol-list.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  private chart_length = 60;
+  private chart_length = 600;
 
   private source$: Observable<{ [symbol: string]: Ticker }>;
 
@@ -93,6 +91,7 @@ export class AppComponent {
         return reduced.distance / reduced.volume;
       }),
       filter((x) => !!x),
+      skipUntil(timer(3000)),
       tap((value) => {
         this.chart_data[w].push(value);
         if (this.chart_data[w].length > this.chart_length) {

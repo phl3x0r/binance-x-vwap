@@ -16,6 +16,9 @@ export class ChartComponent implements OnInit {
         name: 'volume',
         data: data.volume,
         type: 'line',
+        color: '#4634eb',
+        animation: false,
+        crisp: false,
         marker: {
           enabled: false,
           radius: 0,
@@ -25,6 +28,9 @@ export class ChartComponent implements OnInit {
         name: 'equal',
         data: data.equal,
         type: 'line',
+        color: '#34c9eb',
+        animation: false,
+        crisp: false,
         marker: {
           enabled: false,
           radius: 0,
@@ -34,6 +40,9 @@ export class ChartComponent implements OnInit {
         name: 'inverse',
         data: data.inverse,
         type: 'line',
+        color: '#e834eb',
+        animation: false,
+        crisp: false,
         marker: {
           enabled: false,
           radius: 0,
@@ -46,6 +55,10 @@ export class ChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts; // required
   chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
   chartOptions: Highcharts.Options = {
+    title: { text: 'history', style: { fontFamily: 'consolas' } },
+    xAxis: { title: { text: 'seconds', style: { fontFamily: 'consolas' } } },
+    yAxis: { title: { text: '' } },
+    legend: { itemStyle: { fontFamily: 'consolas' } },
     series: [],
   }; // required
   chartCallback: Highcharts.ChartCallbackFunction = () => null; // optional function, defaults to null
