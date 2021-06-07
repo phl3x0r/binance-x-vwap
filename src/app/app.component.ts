@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SeriesOptionsType } from 'highcharts';
 import { NgxGaugeType } from 'ngx-gauge/gauge/gauge';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, scan, share, tap } from 'rxjs/operators';
 import { webSocket } from 'rxjs/webSocket';
 import { GaugeData } from './gauge/gauge.component';
@@ -13,11 +14,18 @@ import { ListItemData } from './symbol-list/symbol-list.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  private chart_length = 60;
+
   private source$: Observable<{ [symbol: string]: Ticker }>;
 
   xvwap_volume$: Observable<GaugeData>;
   xvwap_equal$: Observable<GaugeData>;
   xvwap_inverse$: Observable<GaugeData>;
+  chart_data = {
+    volume: <number[]>new Array(this.chart_length).fill(null),
+    equal: <number[]>new Array(this.chart_length).fill(null),
+    inverse: <number[]>new Array(this.chart_length).fill(null),
+  };
 
   private getDistance = (price: number, origin: number): number =>
     1 - price / origin;
@@ -85,6 +93,16 @@ export class AppComponent {
         return reduced.distance / reduced.volume;
       }),
       filter((x) => !!x),
+      tap((value) => {
+        this.chart_data[w].push(value);
+        if (this.chart_data[w].length > this.chart_length) {
+          this.chart_data[w].splice(
+            0,
+            this.chart_data[w].length - this.chart_length
+          );
+        }
+        this.chart_data = { ...this.chart_data };
+      }),
       map((value) => ({ value, color: this.getColor(value) }))
     );
   }

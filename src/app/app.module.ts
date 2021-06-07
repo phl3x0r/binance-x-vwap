@@ -10,9 +10,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { GaugeComponent } from './gauge/gauge.component';
 import { SymbolListComponent } from './symbol-list/symbol-list.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
-  declarations: [AppComponent, GaugeComponent, SymbolListComponent],
+  declarations: [AppComponent, GaugeComponent, SymbolListComponent, ChartComponent],
   imports: [
     BrowserModule,
     NgxGaugeModule,
@@ -21,6 +23,7 @@ import { SymbolListComponent } from './symbol-list/symbol-list.component';
     MatIconModule,
     MatCardModule,
     MatGridListModule,
+    HighchartsChartModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
