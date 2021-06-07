@@ -1,3 +1,6 @@
+highcharts
+https://www.highcharts.com/license
+
 zone.js
 MIT
 The MIT License
