@@ -56,8 +56,14 @@ export class ChartComponent implements OnInit {
   chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
   chartOptions: Highcharts.Options = {
     title: { text: 'history', style: { fontFamily: 'consolas' } },
-    xAxis: { title: { text: 'seconds', style: { fontFamily: 'consolas' } } },
-    yAxis: { title: { text: '' } },
+    xAxis: {
+      title: { text: 'seconds', style: { fontFamily: 'consolas' } },
+      labels: { style: { fontFamily: 'consolas' } },
+    },
+    yAxis: {
+      title: { text: '' },
+      labels: { style: { fontFamily: 'consolas' } },
+    },
     legend: { itemStyle: { fontFamily: 'consolas' } },
     series: [],
   }; // required
