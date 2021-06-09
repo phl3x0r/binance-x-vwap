@@ -5,6 +5,11 @@
         <span class="list-item-symbol">
           {{ item.symbol }}
         </span>
+        <span class="list-item-delta list-item-delta-{{ item.delta }}">
+          <mat-icon *ngIf="item.delta !== 'equal'" [@fadeAnimation]="'in'"
+            >arrow_drop_{{ item.delta }}</mat-icon
+          >
+        </span>
         <span class="list-item-value" [ngStyle]="{ color: item.color }">{{
           item.distance | percent: "1.2-2"
         }}</span>

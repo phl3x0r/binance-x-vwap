@@ -1,6 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable, timer } from 'rxjs';
-import { filter, map, scan, share, skipUntil, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  pairwise,
+  scan,
+  share,
+  skipUntil,
+  tap,
+} from 'rxjs/operators';
 import { webSocket } from 'rxjs/webSocket';
 import { GaugeData } from './gauge/gauge.component';
 import { ListItemData } from './symbol-list/symbol-list.component';
@@ -63,6 +71,17 @@ export class AppComponent {
             };
           })
           .sort((a, b) => b.distance - a.distance)
+      ),
+      pairwise(),
+      map(([as, bs]) =>
+        bs.map((b, b_index) => {
+          const a_index = as.findIndex((a) => a.symbol === b.symbol);
+          return {
+            ...b,
+            delta:
+              b_index < a_index ? 'up' : b_index > a_index ? 'down' : 'equal',
+          };
+        })
       )
     );
   }
