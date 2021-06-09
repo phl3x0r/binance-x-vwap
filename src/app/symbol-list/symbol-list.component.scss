@@ -11,7 +11,7 @@
 .list-item {
   display: flex;
   justify-content: space-between;
-  height: 3vh !important;
+  height: 20px !important;
 }
 
 .list-item-symbol {
@@ -31,8 +31,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 3vh;
-  height: 3vh;
+  line-height: 20px;
+  height: 20px;
 }
 
 .list-item-delta-up {
