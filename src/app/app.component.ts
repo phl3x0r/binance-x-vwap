@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable, timer } from 'rxjs';
 import {
+  debounceTime,
   filter,
   map,
   pairwise,
   scan,
   share,
   skipUntil,
+  startWith,
   tap,
 } from 'rxjs/operators';
 import { webSocket } from 'rxjs/webSocket';
@@ -33,12 +36,20 @@ export class AppComponent {
     inverse: <number[]>new Array(this.chart_length).fill(null),
   };
 
+  highlightControl = new FormControl('');
+  highlighter$: Observable<string>;
+
   private getDistance = (price: number, origin: number): number =>
     1 - price / origin;
   listItems$: Observable<ListItemData[]>;
   slider_value: number = 0;
 
   constructor() {
+    this.highlighter$ = this.highlightControl.valueChanges.pipe(
+      debounceTime(20),
+      startWith('')
+    );
+
     this.source$ = webSocket<Tickers>(
       'wss://fstream.binance.com/ws/!ticker@arr'
     ).pipe(

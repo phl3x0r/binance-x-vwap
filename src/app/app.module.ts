@@ -7,13 +7,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { GaugeComponent } from './gauge/gauge.component';
-import { SymbolListComponent } from './symbol-list/symbol-list.component';
+import {
+  HighlightSearch,
+  SymbolListComponent,
+} from './symbol-list/symbol-list.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartComponent } from './chart/chart.component';
 import { SliderComponent } from './slider/slider.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,14 +27,17 @@ import { SliderComponent } from './slider/slider.component';
     SymbolListComponent,
     ChartComponent,
     SliderComponent,
+    HighlightSearch,
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     NgxGaugeModule,
     BrowserAnimationsModule,
     MatListModule,
     MatIconModule,
     MatCardModule,
+    MatInputModule,
     MatGridListModule,
     HighchartsChartModule,
     NgxSliderModule,

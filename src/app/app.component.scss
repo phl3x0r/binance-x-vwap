@@ -16,3 +16,18 @@
     justify-content: baseline;
   }
 }
+
+.search-field {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .highlighter {
+    border: 1px 0 0 0 solid black;
+  }
+}
+
+.list-card {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 50px;
+}
