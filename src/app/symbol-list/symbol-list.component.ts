@@ -42,6 +42,7 @@ export class SymbolListComponent {
 export interface ListItemData {
   symbol: string;
   distance: number;
+  zscore: number;
   color: string;
   delta: 'up' | 'down' | 'equal';
 }

@@ -15,6 +15,7 @@ import {
 import { webSocket } from 'rxjs/webSocket';
 import { GaugeData } from './gauge/gauge.component';
 import { ListItemData } from './symbol-list/symbol-list.component';
+import { getZscore } from './util';
 
 @Component({
   selector: 'app-root',
@@ -67,8 +68,8 @@ export class AppComponent {
     this.xvwap_equal$ = this.getXvwap(Weighting.EQUAL);
     this.xvwap_inverse$ = this.getXvwap(Weighting.INVERSE);
     this.listItems$ = this.source$.pipe(
-      map((x) =>
-        Object.values(x)
+      map((x) => {
+        const distances = Object.values(x)
           .map((v) => {
             const distance = this.getDistance(
               Number.parseFloat(v.w),
@@ -81,8 +82,13 @@ export class AppComponent {
               color,
             };
           })
-          .sort((a, b) => b.distance - a.distance)
-      ),
+          .sort((a, b) => b.distance - a.distance);
+        const distribution = distances.map((d) => d.distance);
+        return distances.map((d) => ({
+          ...d,
+          zscore: getZscore(distribution, d.distance),
+        }));
+      }),
       pairwise(),
       map(([as, bs]) =>
         bs.map((b, b_index) => {

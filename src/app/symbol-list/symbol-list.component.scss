@@ -27,6 +27,17 @@
   justify-content: center;
   line-height: 20px;
   height: 20px;
+  width: 10%;
+}
+
+.list-item-zscore {
+  width: 10%;
+  font-family: "consolas";
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  line-height: 20px;
+  height: 20px;
 }
 
 .list-item-delta-up {
