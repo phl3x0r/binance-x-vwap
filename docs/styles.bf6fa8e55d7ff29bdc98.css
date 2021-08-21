@@ -1,1 +1,71 @@
 body,html{height:100%}body{margin:0;font-family:Consolas}
+
+/* Clocks and Everything */
+.mat-grid-tile
+{
+    background: rgb(68,9,9);
+    background: linear-gradient(90deg, rgba(68,9,9,1) 0%, rgba(180,32,32,1) 100%);
+    color: white;
+}
+
+/* Clocks Hover */
+.mat-grid-tile:hover
+{
+    color: hsl(188deg, 97%, 66%, 99%);
+}
+
+/* Search Field */
+.search-field
+{
+   border: solid hsl(278deg, 92%, 61%, 99%) 3px;
+   margin-bottom: 2rem;
+   padding: 0.5rem;
+}
+
+/* Input */
+input
+{
+    background: hsl(181deg, 70%, 54%, 99%);
+    color: black;
+}
+
+/* Search Inside */
+#highlightControl
+{
+    padding: 0.5rem 0;
+    font-size: 18px;
+    width: 80%;
+    border: solid black 3px;
+    outline: none;
+}
+
+/* Prices Tab */
+.list-card
+{
+   background: rgb(68,9,9);
+   background: linear-gradient(90deg, rgba(68,9,9,1) 0%, rgba(180,32,32,1) 100%);
+}
+
+/* Items */
+.mat-list-item
+{
+    color: white;
+    background: 
+    linear-gradient(hsl(278deg, 92%, 61%, 99%) 0 0)
+    bottom /var(--d, 0) 3px 
+    no-repeat;
+    transition: 0.5s;
+}
+
+/* Items Hover */
+.mat-list-item:hover 
+{
+  --d: 100%;
+}
+
+/* Graph */
+mat-card.mat-card.mat-focus-indicator.chart-placeholder
+{
+    background: rgb(68,9,9);
+    background: linear-gradient(90deg, rgba(68,9,9,1) 0%, rgba(180,32,32,1) 100%);
+}
