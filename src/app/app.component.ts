@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, timer } from 'rxjs';
+import { interval, merge, Observable, timer } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -54,13 +54,18 @@ export class AppComponent {
       startWith('')
     );
 
-    this.lps$ = webSocket<ForceOrder>(
-      'wss://fstream.binance.com/ws/!forceOrder@arr'
+    this.lps$ = merge(
+      webSocket<ForceOrder>(
+        'wss://fstream.binance.com/ws/!forceOrder@arr'
+      ).pipe(map((fo) => ({ count: true, time: fo.E }))),
+      interval(1000).pipe(
+        map(() => ({ count: false, time: new Date().getTime() }))
+      )
     ).pipe(
       scan(
-        (acc: number[], cur: ForceOrder) => [
-          ...acc.filter((e) => e > cur.E - 60 * 1000),
-          cur.E,
+        (acc: number[], cur: { count: boolean; time: number }) => [
+          ...acc.filter((e) => e > cur.time - 60 * 1000),
+          ...(cur.count ? [cur.time] : []),
         ],
         []
       ),
