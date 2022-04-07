@@ -12,7 +12,10 @@
     <app-gauge [data]="(xvwap_inverse$ | async)!" label="inverse"></app-gauge>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="3" [rowspan]="1">
-    <app-lps-gauge [data]="(lps$ | async)!" label="LPS"></app-lps-gauge>
+    <app-lps-gauge
+      [data]="(lps$ | async)!"
+      label="licks per minute"
+    ></app-lps-gauge>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="3" [rowspan]="4">
     <mat-card class="list-card">
