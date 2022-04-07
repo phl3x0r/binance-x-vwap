@@ -1,0 +1,12 @@
+<mat-card>
+  <ngx-gauge type="semi" [min]="0" [max]="10000" [thick]="20" [value]="data">
+    <ngx-gauge-label>
+      <span class="gauge-value-label"> {{ label }} </span>
+    </ngx-gauge-label>
+    <ngx-gauge-value>
+      <span class="gauge-value">
+        {{ data }}
+      </span>
+    </ngx-gauge-value>
+  </ngx-gauge>
+</mat-card>

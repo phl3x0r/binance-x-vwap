@@ -1,17 +1,20 @@
-<mat-grid-list cols="4" rowHeight="200px">
-  <mat-grid-tile [colspan]="1" [rowspan]="1">
+<mat-grid-list cols="12" rowHeight="200px">
+  <mat-grid-tile [colspan]="2" [rowspan]="1">
     <app-gauge [data]="(xvwap_volume$ | async)!" label="volume"></app-gauge>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="1" [rowspan]="1">
+  <mat-grid-tile [colspan]="2" [rowspan]="1">
     <app-gauge
       [data]="(xvwap_equal$ | async)!"
       label="equal weight"
     ></app-gauge>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="1" [rowspan]="1">
+  <mat-grid-tile [colspan]="2" [rowspan]="1">
     <app-gauge [data]="(xvwap_inverse$ | async)!" label="inverse"></app-gauge>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="1" [rowspan]="4">
+  <mat-grid-tile [colspan]="3" [rowspan]="1">
+    <app-lps-gauge [data]="(lps$ | async)!" label="LPS"></app-lps-gauge>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="3" [rowspan]="4">
     <mat-card class="list-card">
       <div class="search-field">
         <label for="highlightControl"><mat-icon>search</mat-icon></label>
@@ -30,9 +33,33 @@
   <!-- <mat-grid-tile [colspan]="3" [rowspan]="1">
     <app-slider [value]="slider_value"></app-slider>
   </mat-grid-tile> -->
-  <mat-grid-tile [colspan]="3" [rowspan]="3">
+  <mat-grid-tile [colspan]="9" [rowspan]="3">
     <mat-card class="chart-placeholder">
       <app-chart [data]="chart_data"></app-chart>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="4" [rowspan]="3">
+    <mat-card class="chart-placeholder">
+      <app-distribution
+        dType="histogram"
+        [data]="(distribution$ | async)!"
+      ></app-distribution>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="4" [rowspan]="3">
+    <mat-card class="chart-placeholder">
+      <app-distribution
+        dType="bellcurve"
+        [data]="(distribution$ | async)!"
+      ></app-distribution>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="4" [rowspan]="3">
+    <mat-card class="chart-placeholder" *ngIf="stats$ | async as stats">
+      <div class="stats">
+        <div>MEAN: {{ stats.mean }}%</div>
+        <div>STD: {{ stats.std }}%</div>
+      </div>
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>

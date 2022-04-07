@@ -19,15 +19,19 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartComponent } from './chart/chart.component';
 import { SliderComponent } from './slider/slider.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DistributionComponent } from './distribution/distribution.component';
+import { LPSGaugeComponent } from './lps-gauge/lps-gauge.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GaugeComponent,
+    LPSGaugeComponent,
     SymbolListComponent,
     ChartComponent,
     SliderComponent,
     HighlightSearch,
+    DistributionComponent,
   ],
   imports: [
     BrowserModule,

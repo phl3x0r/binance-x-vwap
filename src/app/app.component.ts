@@ -15,7 +15,7 @@ import {
 import { webSocket } from 'rxjs/webSocket';
 import { GaugeData } from './gauge/gauge.component';
 import { ListItemData } from './symbol-list/symbol-list.component';
-import { getZscore } from './util';
+import { getMean, getStd, getZscore } from './util';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +27,7 @@ export class AppComponent {
   private chart_length = 600;
 
   private source$: Observable<{ [symbol: string]: Ticker }>;
+  public lps$: Observable<number>;
 
   xvwap_volume$: Observable<GaugeData>;
   xvwap_equal$: Observable<GaugeData>;
@@ -44,11 +45,26 @@ export class AppComponent {
     1 - price / origin;
   listItems$: Observable<ListItemData[]>;
   slider_value: number = 0;
+  distribution$: Observable<number[]>;
+  stats$: Observable<{ mean: string; std: string }>;
 
   constructor() {
     this.highlighter$ = this.highlightControl.valueChanges.pipe(
       debounceTime(20),
       startWith('')
+    );
+
+    this.lps$ = webSocket<ForceOrder>(
+      'wss://fstream.binance.com/ws/!forceOrder@arr'
+    ).pipe(
+      scan(
+        (acc: number[], cur: ForceOrder) => [
+          ...acc.filter((e) => e > cur.E - 60 * 1000),
+          cur.E,
+        ],
+        []
+      ),
+      map((res) => res.length)
     );
 
     this.source$ = webSocket<Tickers>(
@@ -101,7 +117,17 @@ export class AppComponent {
         })
       )
     );
+    this.distribution$ = this.listItems$.pipe(
+      map((lis) => lis.map((li) => li.distance * 100))
+    );
+    this.stats$ = this.distribution$.pipe(
+      map((dist) => ({
+        mean: getMean(dist).toFixed(2),
+        std: getStd(dist).toFixed(2),
+      }))
+    );
   }
+
   getXvwap(w: Weighting): Observable<GaugeData> {
     return this.source$.pipe(
       map((tickers) => {
@@ -191,4 +217,24 @@ interface Color {
   r: number;
   g: number;
   b: number;
+}
+
+interface ForceOrder {
+  e: string;
+  E: number;
+  o: O;
+}
+
+interface O {
+  s: string;
+  S: string;
+  o: string;
+  f: string;
+  q: string;
+  p: string;
+  ap: string;
+  X: string;
+  l: string;
+  z: string;
+  T: number;
 }
